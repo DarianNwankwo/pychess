@@ -55,39 +55,6 @@ def initialize_board():
     return board
 
 
-def tile_color(win):
-    run_game = True
-    while run_game:
-        x_difference = []
-        y_difference = []
-        distance = []
-        tiles = []
-        click = win.getMouse()
-        x = click.getX()
-        y = click.getY()
-
-        if x < 10 or x > 490 or y < 10 or y > 490:
-            run_game = False
-
-        for i in files:
-            for j in ranks:
-                x_difference.append(abs(x - myDict[str(i)+str(j)][0]))
-                y_difference.append(abs(y - myDict[str(i)+str(j)][1]))
-                tiles.append(str(i)+str(j))
-
-        for d in range(0, len(x_difference)):
-            distance.append(sqrt(x_difference[d]**2 + y_difference[d]**2))
-
-        pos = distance.index(min(distance))
-
-        tile_coord = tiles[pos]
-
-        rect = Rectangle(Point(myDict[str(tile_coord)][0]-30, myDict[str(tile_coord)][1]-30),
-                         Point(myDict[str(tile_coord)][0]+30, myDict[str(tile_coord)][1]+30))
-        rect.setFill('green')
-        rect.draw(win)
-
-
 def create_gui(window_name):
     window = GraphWin(window_name, WINDOW_WIDTH, WINDOW_HEIGHT)
     window.setCoords(
@@ -180,7 +147,6 @@ def not_valid_tile(tile):
     return tile and not tile.has_piece()
 
 
-
 if __name__ == "__main__":
     board = initialize_board()
     window = create_gui("Chess")
@@ -207,6 +173,3 @@ if __name__ == "__main__":
         if should_update_current_tile(cur_tile):
             cur_tile.onclick(window)
             prev_tile = cur_tile
-
-
-    input()
