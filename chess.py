@@ -17,8 +17,8 @@ BOARD_HEIGHT = 480
 WINDOW_WIDTH = BOARD_WIDTH + PADDING
 WINDOW_HEIGHT = BOARD_HEIGHT + PADDING
 WINDOW_ORIGIN = (0, 0)
-PRIMARY_COLOR = "brown"
-SECONDARY_COLOR = "white"
+PRIMARY_COLOR = "red"
+SECONDARY_COLOR = "black"
 INIT_BOARD_CONFIG = {
     "pawn": [col+"7" for col in COL_INDEX] + [col+"2" for col in COL_INDEX],
     "rook": ["A8", "H8", "A1", "H1"],
@@ -76,26 +76,25 @@ def draw_chessboard(window):
     return window
 
 
-def color_chessboard(window, color="brown"):
+def color_chessboard(window, color=PRIMARY_COLOR):
     """Color every other tile."""
     x_offset, y_offset = PADDING // 2, PADDING // 2
 
     for row_ndx in range(len(ROW_INDEX)):
         # When alternating columns, the square to draw is offset by 1. This simulates the
         # zigzag nature of the painting
-        zig_zag = 1 if row_ndx % 2 else 0
-        for col_ndx in range(len(COL_INDEX) // 2):
+        zig_zag = True if row_ndx % 2 else False
+        for col_ndx in range(len(COL_INDEX)):
             start = Point(
-                (x_offset + CHESS_PIECE_DIMENSIONS[0]*zig_zag) +
-                2*CHESS_PIECE_DIMENSIONS[0]*col_ndx,
+                x_offset + CHESS_PIECE_DIMENSIONS[0]*col_ndx,
                 y_offset + CHESS_PIECE_DIMENSIONS[0]*row_ndx
             )
             end = Point(
-                (x_offset + CHESS_PIECE_DIMENSIONS[0]*zig_zag) + 2 *
-                CHESS_PIECE_DIMENSIONS[0]*col_ndx + CHESS_PIECE_DIMENSIONS[0],
-                y_offset + CHESS_PIECE_DIMENSIONS[0] *
-                row_ndx + CHESS_PIECE_DIMENSIONS[0]
+                x_offset + CHESS_PIECE_DIMENSIONS[0]*col_ndx + CHESS_PIECE_DIMENSIONS[0],
+                y_offset + CHESS_PIECE_DIMENSIONS[0] * row_ndx + CHESS_PIECE_DIMENSIONS[0]
             )
+            color = SECONDARY_COLOR if zig_zag else PRIMARY_COLOR
+            zig_zag = not zig_zag
             rectangle = Rectangle(start, end)
             rectangle.setFill(color)
             rectangle.draw(window)
@@ -164,8 +163,7 @@ if __name__ == "__main__":
 
         cur_tile = board.get(tile_location, None)
 
-        if not_valid_tile(cur_tile):
-            continue
+        if not_valid_tile(cur_tile): continue
 
         if should_update_current_and_previous_tile(prev_tile, cur_tile):
             prev_tile.onclick(window)
