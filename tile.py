@@ -3,7 +3,7 @@ from graphics import Point, Rectangle
 
 class Tile:
     
-    FILL_COLOR = "green"
+    ACTIVE_COLOR = "green"
 
     def __init__(self, point1, point2, color):
         self.point1 = point1
@@ -37,7 +37,7 @@ class Tile:
         if self.piece:
             self.rectangle.undraw()
             active = self.state["active"]
-            color = Tile.FILL_COLOR if not active else self.state["original_fill"]
+            color = Tile.ACTIVE_COLOR if not active else self.state["original_fill"]
             self.rectangle.setFill(color)
             self.rectangle.draw(window)
             self.piece.undraw()

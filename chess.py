@@ -17,8 +17,8 @@ BOARD_HEIGHT = 480
 WINDOW_WIDTH = BOARD_WIDTH + PADDING
 WINDOW_HEIGHT = BOARD_HEIGHT + PADDING
 WINDOW_ORIGIN = (0, 0)
-PRIMARY_COLOR = "red"
-SECONDARY_COLOR = "black"
+PRIMARY_COLOR = "purple"
+SECONDARY_COLOR = "orange"
 INIT_BOARD_CONFIG = {
     "pawn": [col+"7" for col in COL_INDEX] + [col+"2" for col in COL_INDEX],
     "rook": ["A8", "H8", "A1", "H1"],
