@@ -13,6 +13,7 @@ class Tile:
             Point(self.point2[0], self.point2[1])
         )
         self.piece = None
+        self.piece_name = ""
         self.state = {
             "active": False,
             "original_fill": color
@@ -27,8 +28,9 @@ class Tile:
     def getY(self):
         return self.point1[1]
 
-    def set_piece(self, p):
+    def set_piece(self, p, n):
         self.piece = p
+        self.piece_name = n
         return self
 
     def still_active(self):

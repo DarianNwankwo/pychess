@@ -1,6 +1,8 @@
 from graphics import *
 from tile import Tile
 
+COLUMN_BOUNDS = ("A", "H")
+ROW_BOUNDS = (1, 9)
 
 class Board:
 
@@ -120,7 +122,7 @@ class Board:
                     image_name
                 )
                 piece_image.draw(window)
-                board[loc].set_piece(piece_image)
+                board[loc].set_piece(piece_image, piece)
 
     def _get_window(self):
         return self.window
