@@ -27,6 +27,10 @@ class Tile:
     def getY(self):
         return self.point1[1]
 
+    def set_piece(self, p):
+        self.piece = p
+        return self
+
     def still_active(self):
         return self.state["active"]
 
