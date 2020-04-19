@@ -37,6 +37,14 @@ class Board:
         self.yoffset = padding // 2
         self._build_game()
 
+    def _init_state(self):
+        self.state = {
+            "game_still_active": True,
+            "tile_is_active": False,
+            "cur_tile": None,
+            "prev_tile": None
+        }
+
     def _initialize_board(self):
         """Initialize the carteasian and chess based coordinates for the board."""
         board = {}
@@ -132,6 +140,7 @@ class Board:
         self._draw_chessboard()
         self._color_chessboard()
         self._setup_chessboard()
+        self._init_state()
 
     def _get_chess_piece_dimensions(self):
         """Returns a tuple of the chess piece dimensions"""
@@ -142,3 +151,38 @@ class Board:
     
     def _get_offsets(self):
         return self.xoffset, self.yoffset
+
+    def _get_active_tile(self):
+        return self.state["active_tile"]
+
+    def still_playing(self):
+        return self.state["game_still_active"]
+
+    def get_tile(self, location):
+        if self.state.get("tile_is_active", False):
+            tile = self._get_active_tile()
+            tile.onclick( self._get_window() ) # deactivate active tile
+            self.state.update( {"tile_is_active": False} )
+            return tile
+
+        tile = self._get_board().get(location, None)
+        tile.onclick( self._get_window() )
+        self.state.update({
+            "tile_is_active": True,
+            "active_tile": tile
+        })
+        return tile
+
+    def get_tile_clicked(self, x, y):
+        xoffset, yoffset = self._get_offsets()
+        xprime, yprime = x - xoffset, y - yoffset
+        cpd = self._get_chess_piece_dimensions()
+
+        col_ndx = chr( int(xprime // cpd[0]) + 1 + Board.ORDINAL_OFFSET )
+        row_ndx = int(yprime // cpd[1]) + 1
+        return f"{col_ndx}{row_ndx}"
+
+    def get_mouse_click(self):
+        w = self._get_window()
+        p = w.getMouse()
+        return p.getX(), p.getY()

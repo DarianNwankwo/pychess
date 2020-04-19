@@ -33,22 +33,14 @@ def not_valid_tile(tile):
 
 
 if __name__ == "__main__":
-    # board = initialize_board()
-    # window = create_gui("Chess")
-    # window = draw_chessboard(window)
-    # window = color_chessboard(window)
-    # window = setup_chessboard(window, board)
-
-    game_still_active = True
-    cur_tile, prev_tile = None, None
-
     chess = Board()
-    input()
+    print(chess.board)
 
-    # while game_still_active:
-    #     sleep(.1)
-    #     xclick, yclick = get_mouse_click(window)
-    #     tile_location = get_tile(board, xclick, yclick)
+    while chess.still_playing():
+        sleep(.1)
+        xclick, yclick = chess.get_mouse_click()
+        tile_location = chess.get_tile_clicked(xclick, yclick)
+        tile = chess.get_tile(tile_location)
 
     #     cur_tile = board.get(tile_location, None)
 
