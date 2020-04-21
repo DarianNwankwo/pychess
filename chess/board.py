@@ -41,7 +41,7 @@ class Board:
         self.state = {
             "game_still_active": True,
             "tile_is_active": False,
-            "cur_tile": None,
+            "active_tile": None,
             "prev_tile": None
         }
 
@@ -159,6 +159,10 @@ class Board:
         return self.state["game_still_active"]
 
     def get_tile(self, location):
+        # If clicking the same tile, return active tile
+        if self._get_board().get(location, None) == self._get_active_tile():
+            return self._get_active_tile()
+
         # Deactivate active tile
         if self.state.get("tile_is_active", False):
             tile = self._get_active_tile()
