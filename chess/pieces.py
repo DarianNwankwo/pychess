@@ -21,6 +21,7 @@ ROW_BOUNDS = ("1", "8")
 COL_INDEX = "ABCDEFGH"
 ROW_INDEX = range(1, 9)
 
+
 def inbounds(location):
     col, row = location[0], location[1]
     return col >= COLUMN_BOUNDS[0] and col <= COLUMN_BOUNDS[1] \
@@ -44,7 +45,7 @@ def translate(location, col_trans, row_trans):
     return new_location
 
 
-class Pond:
+class Pawn:
     def __init__(self, is_black=True):
         self.state = {
             "is_first_move": True,
@@ -102,7 +103,7 @@ class Rook:
         for col in COL_INDEX:
             moves.append( f"{col}{row_ndx}" )
 
-        return moves
+        return sorted(list(filter(lambda loc: loc != location, moves)))
 
 
 class Knight:
@@ -125,5 +126,15 @@ class King:
         pass
 
 
+PIECE_MAPPINGS = {
+    "pawn": Pawn,
+    "rook": Rook,
+    "bishop": Bishop,
+    "queen": Queen,
+    "king": King,
+    "knight": Knight
+}
+
+
 if __name__ == "__main__":
-    pass
+    print(PIECE_MAPPINGS["pond"])
