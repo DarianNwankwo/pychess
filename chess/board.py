@@ -4,7 +4,7 @@ from tile import Tile
 
 class Board:
 
-    IMAGE_DIR = "images"
+    IMAGE_DIR = "./images"
     COL_INDEX = "ABCDEFGH"
     ROW_INDEX = range(1,9)
     CHESS_PIECE_DIMENSIONS = (60, 60)

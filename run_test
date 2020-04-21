@@ -1,0 +1,65 @@
+#!/bin/bash
+__pond="
+    __   
+   /  \  
+   \__/  
+  /____\ 
+   |  |  
+   |__|  
+  (====) 
+  }===={ 
+ (______)
+"
+
+__rook="
+  |'-'-'| 
+  |_____| 
+   |===|  
+   |   |  
+   |   |  
+   )___(  
+  (=====) 
+  }====={ 
+ (_______)
+"
+
+__knight="
+   (\=,   
+  //  .\  
+ (( \_  \ 
+  ))  \`\_)
+ (/     \ 
+  | _.-'| 
+   )___(  
+  (=====) 
+  }====={ 
+ (_______)
+"
+
+__bishop="
+     ()    
+     /\    
+    //\\   
+   (    )  
+    )__(   
+   /____\  
+    |  |   
+    |  |   
+   /____\  
+  (======) 
+  }======{ 
+ (________)
+"
+
+pieces=(pond rook knight bishop queen king)
+
+for piece in "${pieces[@]}"
+do
+  FILE="./test/test_$piece.py"
+  if [ -f "$FILE" ]; then
+    ASCII_ART="__$piece"
+    echo "RUNNING TEST FOR THE FOLLOWING PIECE: $piece"
+    echo "${$ASCII_ART}"
+    python -m unittest test.test_$piece
+  fi
+done
