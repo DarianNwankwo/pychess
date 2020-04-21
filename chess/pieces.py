@@ -17,7 +17,7 @@ and the white pieces will be starting above row 6. I believe this is only
 necessary for the pond pieces.
 """
 COLUMN_BOUNDS = ("A", "H")
-ROW_BOUNDS = ("1", "9")
+ROW_BOUNDS = ("1", "8")
 COL_INDEX = "ABCDEFGH"
 ROW_INDEX = range(1, 9)
 
@@ -45,12 +45,13 @@ def translate(location, col_trans, row_trans):
 
 
 class Pond:
-    def __init__(self):
+    def __init__(self, is_black=True):
         self.state = {
-            "is_first_move": True
+            "is_first_move": True,
+            "is_black": is_black
         }
 
-    def get_moves(self, location, is_black=True, left_dominate=False, right_dominate=False):
+    def get_moves(self, location, left_dominate=False, right_dominate=False):
         """Gets the possible moves for the current piece
 
         :param location: the chess coordinate, e.g. `A1`
@@ -64,19 +65,19 @@ class Pond:
         :returns: a list of locations
         :rtype: list[str]
         """
-        dir_ = 1 if is_black else -1
+        dir_ = 1 if self.state.get("is_black", False) else -1
         moves = []
 
-        if inbounds(translate(location, 0, 1*dir_)):
+        if inbounds( translate(location, 0, 1*dir_) ):
             moves.append( translate(location, 0, 1*dir_) )
 
-        if self.state["is_first_move"] and inbounds(translate(location, 0, 2*dir_)):
+        if self.state["is_first_move"] and inbounds( translate(location, 0, 2*dir_) ):
             moves.append( translate(location, 0, 2*dir_) )
 
-        if left_dominate:
+        if left_dominate and inbounds( translate(location, -1, 1*dir_) ):
             moves.append( translate(location, -1, 1*dir_) )
         
-        if right_dominate:
+        if right_dominate and inbounds( translate(location, 1, 1*dir_) ):
             moves.append( translate(location, 1, 1*dir_) )
 
         return sorted(moves)
