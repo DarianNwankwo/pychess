@@ -1,8 +1,6 @@
 from graphics import *
 from tile import Tile
 
-COLUMN_BOUNDS = ("A", "H")
-ROW_BOUNDS = (1, 9)
 
 class Board:
 
@@ -161,13 +159,17 @@ class Board:
         return self.state["game_still_active"]
 
     def get_tile(self, location):
+        # Deactivate active tile
         if self.state.get("tile_is_active", False):
             tile = self._get_active_tile()
-            tile.onclick( self._get_window() ) # deactivate active tile
+            tile.onclick( self._get_window() )
             self.state.update( {"tile_is_active": False} )
-            return tile
 
         tile = self._get_board().get(location, None)
+
+        # Only change state of tile's with pieces
+        if not tile.has_piece(): return tile
+
         tile.onclick( self._get_window() )
         self.state.update({
             "tile_is_active": True,

@@ -4,7 +4,6 @@ from time import sleep
 
 from board import Board
 from tile import Tile
-from piece import Piece
 
 
 def should_update_current_and_previous_tile(prev_tile, cur_tile):
@@ -21,7 +20,6 @@ def not_valid_tile(tile):
 
 if __name__ == "__main__":
     chess = Board()
-    print(chess.board)
 
     while chess.still_playing():
         sleep(.1)
@@ -34,7 +32,7 @@ if __name__ == "__main__":
     #     if not_valid_tile(cur_tile): continue
 
     #     if should_update_current_and_previous_tile(prev_tile, cur_tile):
-    #         prev_tile.onclick(window)
+    #         prev_tile.onclick(windimow)
 
     #     if should_update_current_tile(cur_tile):
     #         cur_tile.onclick(window)

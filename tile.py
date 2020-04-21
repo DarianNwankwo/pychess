@@ -5,12 +5,12 @@ class Tile:
     
     ACTIVE_COLOR = "green"
 
-    def __init__(self, point1, point2, color):
-        self.point1 = point1
-        self.point2 = point2
+    def __init__(self, bl, tr, color):
+        self.bl = bl
+        self.tr = tr
         self.rectangle = Rectangle(
-            Point(self.point1[0], self.point1[1]),
-            Point(self.point2[0], self.point2[1])
+            Point(self.bl[0], self.bl[1]),
+            Point(self.tr[0], self.tr[1])
         )
         self.piece = None
         self.piece_name = ""
@@ -20,13 +20,13 @@ class Tile:
         }
 
     def location(self):
-        return self.point1
+        return self.bl
 
     def getX(self):
-        return self.point1[0]
+        return self.bl[0]
 
     def getY(self):
-        return self.point1[1]
+        return self.bl[1]
 
     def set_piece(self, p, n):
         self.piece = p
