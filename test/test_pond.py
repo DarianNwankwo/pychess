@@ -1,15 +1,15 @@
 import unittest
-from chess.pieces import Pond
+from chess.pieces import Pawn
 
 
-black_pond = Pond(is_black=True)
-white_pond = Pond(is_black=False)
+black_pawn = Pawn(is_black=True)
+white_pawn = Pawn(is_black=False)
 
 
-class TestPond(unittest.TestCase):
+class Testpawn(unittest.TestCase):
 
     def test_forwards_get_moves(self):
-        p = black_pond
+        p = black_pawn
         self.assertEqual(p.get_moves("A2"), ["A3", "A4"])
         p.set_is_first_move(False)
         self.assertEqual(p.get_moves("A3"), ["A4"])
@@ -20,7 +20,7 @@ class TestPond(unittest.TestCase):
         self.assertEqual(p.get_moves("D6", left_dominate=True), ["C7", "D7"])
 
     def test_backwards_get_moves(self):
-        p = white_pond
+        p = white_pawn
         self.assertEqual(p.get_moves("A7"), ["A5", "A6"])
         p.set_is_first_move(False)
         self.assertEqual(p.get_moves("A3"), ["A2"])

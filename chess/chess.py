@@ -24,8 +24,11 @@ if __name__ == "__main__":
     while chess.still_playing():
         sleep(.1)
         xclick, yclick = chess.get_mouse_click()
+        # This seems to be logic that occurs if a tile isn't currently active
         tile_location = chess.get_tile_clicked(xclick, yclick)
         tile = chess.get_tile(tile_location)
+        possible_moves = tile.get_moves(tile_location)
+        print(possible_moves)
 
     #     cur_tile = board.get(tile_location, None)
 

@@ -172,7 +172,8 @@ class Board:
         tile = self._get_board().get(location, None)
 
         # Only change state of tile's with pieces
-        if not tile.has_piece(): return tile
+        if tile and not tile.has_piece(): return tile
+        if not tile: return tile
 
         tile.onclick( self._get_window() )
         self.state.update({

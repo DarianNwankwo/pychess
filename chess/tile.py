@@ -15,7 +15,7 @@ class Tile:
             Point(self.tr[0], self.tr[1])
         )
         self.piece_image = None
-        self.piece_obj = ""
+        self.piece_obj = None
         self.state = {
             "active": False,
             "original_fill": color
@@ -30,9 +30,14 @@ class Tile:
     def getY(self):
         return self.bl[1]
 
+    def get_moves(self, location):
+        if self.piece_obj:
+            return self.piece_obj.get_moves(location)
+        return []
+
     def set_piece(self, piece_image, piece_name):
         self.piece_image = piece_image
-        self.piece_obj = PIECE_MAPPINGS[piece_name]
+        self.piece_obj = PIECE_MAPPINGS[piece_name]()
         return self
 
     def still_active(self):

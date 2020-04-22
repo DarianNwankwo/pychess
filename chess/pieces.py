@@ -42,15 +42,22 @@ def translate(location, col_trans, row_trans):
     """
     col_ndx, row_ndx = location[0], location[1]
     new_location = chr(ord(col_ndx) + col_trans) + chr(ord(row_ndx) + row_trans)
-    return new_location
+    return new_location    
 
 
 class Pawn:
+
+    name = "pawn"
+
     def __init__(self, is_black=True):
         self.state = {
             "is_first_move": True,
             "is_black": is_black
         }
+
+    @classmethod
+    def get_name(cls):
+        return cls.name
 
     def get_moves(self, location, left_dominate=False, right_dominate=False):
         """Gets the possible moves for the current piece
@@ -85,11 +92,18 @@ class Pawn:
 
     def set_is_first_move(self, b):
         self.state.update({ "is_first_move": b })
-
+    
 
 class Rook:
+
+    name = "rook"
+
     def __init__(self):
         pass
+
+    @classmethod
+    def get_name(cls):
+        return cls.name
 
     def get_moves(self, location):
         col_ndx, row_ndx = location[0], location[1]
@@ -107,23 +121,136 @@ class Rook:
 
 
 class Knight:
+
+    name = "knight"
+
     def __init__(self):
         pass
+
+    @classmethod
+    def get_name(cls):
+        return cls.name
+
+    def get_moves(self, location):
+        translations = [(2, 1), (2, -1), (-2, 1), (-2, -1)]
+        moves = []
+
+        for trans in translations:
+            new_location = translate(location, *trans)
+            if inbounds(new_location):
+                moves.append(new_location)
+
+        for trans in translations:
+            new_location = translate(location, *reversed(trans))
+            if inbounds(new_location):
+                moves.append(new_location)
+        
+        return sorted(moves)
 
 
 class Bishop:
+
+    name = "bishop"
+
     def __init__(self):
         pass
+
+    def get_moves(self, location):
+        left_location = right_location = location
+        moves = []
+        # Collect moves diagonally up
+        steps = ord(ROW_BOUNDS[1]) - ord(location[1])
+        for _ in range(steps):
+            left_location = translate(left_location, 1, 1)
+            right_location = translate(right_location, -1, 1)
+            if inbounds(left_location): moves.append(left_location)
+            if inbounds(right_location): moves.append(right_location)
+
+        # Collect moves diagonally down
+        left_location = right_location = location
+        steps = ord(location[1]) - ord(ROW_BOUNDS[0])
+        for _ in range(steps):
+            left_location = translate(left_location, 1, -1)
+            right_location = translate(right_location, -1, -1)
+            if inbounds(left_location): moves.append(left_location)
+            if inbounds(right_location): moves.append(right_location)
+
+        return sorted(moves)
+        
+
+    @classmethod
+    def get_name(cls):
+        return cls.name
 
 
 class Queen:
+
+    name = "queen"
+
     def __init__(self):
         pass
+
+    @classmethod
+    def get_name(cls):
+        return cls.name
+
+    def get_moves(self, location):
+        col_ndx, row_ndx = location[0], location[1]
+        left_location = right_location = location
+        moves = []
+
+        # Iterate across rows while holding column constant
+        for row in ROW_INDEX:
+            moves.append( f"{col_ndx}{row}" )
+
+        # Likewise for columns
+        for col in COL_INDEX:
+            moves.append( f"{col}{row_ndx}" )
+
+        # Collect moves diagonally up
+        steps = ord(ROW_BOUNDS[1]) - ord(location[1])
+        for _ in range(steps):
+            left_location = translate(left_location, 1, 1)
+            right_location = translate(right_location, -1, 1)
+            if inbounds(left_location): moves.append(left_location)
+            if inbounds(right_location): moves.append(right_location)
+
+        # Collect moves diagonally down
+        left_location = right_location = location
+        steps = ord(location[1]) - ord(ROW_BOUNDS[0])
+        for _ in range(steps):
+            left_location = translate(left_location, 1, -1)
+            right_location = translate(right_location, -1, -1)
+            if inbounds(left_location): moves.append(left_location)
+            if inbounds(right_location): moves.append(right_location)
+
+        moves = list(set(moves))
+
+        return sorted(list(filter(lambda loc : loc != location, moves)))
+
 
 
 class King:
+
+    name = "king"
+
     def __init__(self):
         pass
+
+    @classmethod
+    def get_name(cls):
+        return cls.name
+
+    def get_moves(self, location):
+        translations = [(1, 1), (1, 0), (1, -1), (0, 1), (0, -1), (-1, 1), (-1, 0), (-1, -1)]
+        moves = []
+
+        for trans in translations:
+            new_location = translate(location, *trans)
+            if inbounds(new_location):
+                moves.append(new_location)
+
+        return sorted(moves)
 
 
 PIECE_MAPPINGS = {
@@ -137,4 +264,4 @@ PIECE_MAPPINGS = {
 
 
 if __name__ == "__main__":
-    print(PIECE_MAPPINGS["pond"])
+    print(PIECE_MAPPINGS["knight"]().get_moves("D4"))
