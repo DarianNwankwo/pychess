@@ -1,6 +1,5 @@
 #!/bin/bash
 TEST_DIR="test"
-declare -a ASCII_ART_MAP=( ["__pond"]="${__pond}" )
 
 pieces=(pond rook knight bishop queen king)
 
