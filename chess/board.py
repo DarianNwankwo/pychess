@@ -195,3 +195,8 @@ class Board:
         w = self._get_window()
         p = w.getMouse()
         return p.getX(), p.getY()
+
+    def show_possible_moves(self, locations):
+        board = self._get_board()
+        for loc in locations:
+            board[loc].onclick()

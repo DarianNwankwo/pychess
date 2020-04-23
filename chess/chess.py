@@ -28,7 +28,11 @@ if __name__ == "__main__":
         tile_location = chess.get_tile_clicked(xclick, yclick)
         tile = chess.get_tile(tile_location)
         possible_moves = tile.get_moves(tile_location)
-        print(possible_moves)
+
+        for loc in possible_moves:
+            tmp_tile = chess.get_tile(loc)
+            tmp_tile.highlight(chess._get_window())
+            # print(possible_moves)
 
     #     cur_tile = board.get(tile_location, None)
 

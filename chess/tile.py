@@ -47,6 +47,7 @@ class Tile:
         return self.piece_image != None
 
     def onclick(self, window):
+        """Handles highlighting tiles with pieces."""
         if self.piece_image:
             self.rectangle.undraw()
             active = self.state["active"]
@@ -57,4 +58,12 @@ class Tile:
             self.piece_image.draw(window)
             self.state["active"] = not active
 
+    def highlight(self, window):
+        if self.rectangle:
+            self.rectangle.undraw()
+            active = self.state["active"]
+            color = Tile.ACTIVE_COLOR if not active else self.state["original_fill"]
+            self.rectangle.setFill(color)
+            self.rectangle.draw(window)
+            self.state["active"] = not active
 
